@@ -1,3 +1,5 @@
-data_config : './configs/datasets/cifar.yaml'
+DATASET:
+  data : 'cifar_10'
 
-batch_size : 64
+SOLVER:
+  batch_size : 64

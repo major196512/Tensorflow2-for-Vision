@@ -1,0 +1,7 @@
+DATASET:
+  data : None
+  data_dir:
+    cifar_10 : './configs/datasets/cifar.yaml'
+    
+SOLVER:
+  batch_size : 4
