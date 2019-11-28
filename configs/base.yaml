@@ -2,6 +2,9 @@ DATASET:
   data : None
   data_dir:
     cifar_10 : './configs/datasets/cifar.yaml'
-    
+  normalizer:
+    max_value : 255.0
+    mean : [0.485, 0.456, 0.406]
+    std : [0.229, 0.224, 0.225]
 SOLVER:
   batch_size : 4

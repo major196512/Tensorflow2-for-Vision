@@ -10,8 +10,8 @@ from utils.merge_yaml import merge_yaml
 from utils.load_data import load_data
 
 def main():
-    cfg = yaml.load(open('./configs/base.yaml'))
-    additional_cfg = yaml.load(open('./configs/test_cifar.yaml'))
+    cfg = yaml.load(open('./configs/base.yaml'), Loader=yaml.FullLoader)
+    additional_cfg = yaml.load(open('./configs/test_cifar.yaml'), Loader=yaml.FullLoader)
 
     cfg = merge_yaml(cfg, additional_cfg)
 
@@ -19,12 +19,14 @@ def main():
     num_train = len(train_data)
     num_test = len(test_data)
 
-    train_loader = tf.data.Dataset.from_generator(train_data, (tf.int32, tf.int32))
-    test_loader = tf.data.Dataset.from_generator(test_data, (tf.int32, tf.int32))
+    train_loader = tf.data.Dataset.from_generator(train_data, (tf.float32, tf.int32))
+    test_loader = tf.data.Dataset.from_generator(test_data, (tf.float32, tf.int32))
 
     train_loader = train_loader.shuffle(num_train).batch(cfg['SOLVER']['batch_size'], drop_remainder=True)
     for d, l in train_loader:
+        print(d)
         print(l)
+        break
 
 if __name__ == '__main__':
     main()
