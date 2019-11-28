@@ -6,8 +6,8 @@ import yaml
 if __package__ is None:
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from tools.merge_yaml import merge_yaml
-from tools.load_data import load_data
+from utils.merge_yaml import merge_yaml
+from utils.load_data import load_data
 
 def main():
     cfg = yaml.load(open('./configs/base.yaml'))
