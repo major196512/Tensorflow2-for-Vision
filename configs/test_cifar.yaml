@@ -1,0 +1,3 @@
+data_config : './configs/datasets/cifar.yaml'
+
+batch_size : 64

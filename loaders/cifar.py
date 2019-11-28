@@ -1,47 +1,44 @@
 import os
 import pickle
 import numpy as np
+import yaml
 
 import tensorflow as tf
 
 class CIFAR10:
-    def __init__(self, path, mode='train'):
-        ############################################
-        num_train_file = 5
-        train_file_name = 'data_batch_'
-        test_file_name = 'test_batch'
-        data_key = b'data'
-        label_key = b'labels'
-        img_size = 3072
+    def __init__(self, cfg, mode='train'):
+        cfg = yaml.load(open(cfg))
 
-        ############################################
-        self.train_img = np.zeros((0, img_size))
-        self.test_img = np.zeros((0, img_size))
-        self.train_label = np.zeros((0, ))
-        self.test_label = np.zeros((0, ))
+        if mode == 'train' : self.train_dataset(cfg)
+        elif mode == 'test' : self. test_dataset(cfg)
+        else : raise ValueError('Invalide cifar-10 dataset mode')
 
-        ############################################
-        for i in range(1, num_train_file+1):
-            file_name = os.path.join(path, train_file_name+str(i))
+    def train_dataset(self, cfg):
+        self.img = np.zeros((0, cfg['img_size']))
+        self.label = np.zeros((0, ))
+
+        for i in range(1, cfg['num_train_file']+1):
+            file_name = os.path.join(cfg['data_path'], cfg['train_file_name']+str(i))
             dict = pickle.load(open(file_name, 'rb'), encoding='bytes')
 
-            img = np.array(dict[data_key])
-            label = np.array(dict[label_key])
+            img = np.array(dict[b'data'])
+            label = np.array(dict[b'labels'])
 
-            self.train_img = np.concatenate([self.train_img, img], axis=0)
-            self.train_label = np.concatenate([self.train_label, label], axis=0)
+            self.img = np.concatenate([self.img, img], axis=0)
+            self.label = np.concatenate([self.label, label], axis=0)
 
-        ############################################
-        file_name = os.path.join(path, test_file_name)
+    def test_dataset(self, cfg):
+        file_name = os.path.join(cfg['data_path'], cfg['test_file_name'])
         dict = pickle.load(open(file_name, 'rb'), encoding='bytes')
 
-        self.test_img = np.array(dict[data_key])
-        self.test_label = np.array(dict[label_key])
-
-        self.num_train = self.train_img.shape[0]
-        self.num_test = self.test_img.shape[0]
+        self.img = np.array(dict[b'data'])
+        self.label = np.array(dict[b'labels'])
 
     #####################################################################
     def __call__(self):
-        for i in range(self.num_train):
-            yield (self.train_img[i], self.train_label[i])
+        for i in range(self.img.shape[0]):
+            yield (self.img[i], self.label[i])
+
+    #####################################################################
+    def __len__(self):
+        return self.img.shape[0]

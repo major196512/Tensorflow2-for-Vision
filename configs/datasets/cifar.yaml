@@ -1,0 +1,7 @@
+data_path : '/home/taeho/data/cifar-10-batches-py'
+
+num_train_file : 5
+img_size : 3072
+
+train_file_name : 'data_batch_'
+test_file_name : 'test_batch'
