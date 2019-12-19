@@ -1,13 +1,15 @@
-def merge_yaml(cfg, input):
+import yaml
+
+def merge_yaml(input):
+    cfg = yaml.load(open('./configs/base.yaml'), Loader=yaml.FullLoader)
     #################################
     ####DATASET
     #################################
-    cfg_dataset = cfg['DATASET']
-    dataset = input['DATASET']
-    data = dataset['data']
+    cfg_dataset = cfg['DATA']
+    dataset = input['DATA']['dataset']
 
-    if dataset['data'] in cfg_dataset['data_dir']:
-        cfg_dataset['data_dir'] = cfg_dataset['data_dir'][data]
+    if dataset in cfg_dataset['data_dir']:
+        cfg_dataset['data_dir'] = cfg_dataset['data_dir'][dataset]
     else:
         raise ValueError('Not in base yaml for data directory')
 
@@ -18,7 +20,7 @@ def merge_yaml(cfg, input):
         for k1 in input[base_key].keys():
             if isinstance(input[base_key][k1], dict):
                 for k2 in input[base_key][k1].keys():
-                    dfg[base_key][k1][k2] = input[base_key][k1][k2]
+                    cfg[base_key][k1][k2] = input[base_key][k1][k2]
 
             else:
                 cfg[base_key][k1] = input[base_key][k1]

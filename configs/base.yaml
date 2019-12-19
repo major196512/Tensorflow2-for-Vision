@@ -1,10 +1,50 @@
-DATASET:
-  data : None
-  data_dir:
-    cifar_10 : './configs/datasets/cifar.yaml'
-  normalizer:
+DATA:
+  dataset : None
+  data_dir :
+    cifar_10 : './data/cifar-10-batches-py'
+
+  train_set : 'train'
+  val_set : 'val'
+  test_set : 'test'
+
+  channel_first : True
+  train_shuffle : True
+
+  toy : False
+
+#---------------------------------------------
+LOADER:
+  normalizer :
     max_value : 255.0
     mean : [0.485, 0.456, 0.406]
     std : [0.229, 0.224, 0.225]
+
+#---------------------------------------------
 SOLVER:
+  epoch : 100
   batch_size : 4
+
+#---------------------------------------------
+CALLBACK:
+  checkpoint:
+    flag_run : True
+    output_dir : './output'
+    save_name : 'model'
+    monitor : 'val_loss'
+    verbose : 0
+    save_best_only : False
+    save_weights_only : False
+    mode : 'auto'
+    save_freq : 'epoch'
+    save_frequency : 1
+
+  plateau:
+    flag_run : False
+    monitor : 'var_loss'
+    factor : 0.1
+    patience : 10
+    verbose : 0
+    mode : 'auto'
+    min_delta : 0.0001
+    cooldown : 0
+    min_lr : 0

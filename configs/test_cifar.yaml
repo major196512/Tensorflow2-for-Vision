@@ -1,5 +1,26 @@
-DATASET:
-  data : 'cifar_10'
+DATA:
+  dataset : 'cifar_10'
 
+  train_set : 'train'
+  val_set : 'test'
+  test_set : 'test'
+
+  channel_first : True
+  shuffle : True
+
+  toy : False
+
+#---------------------------------------------
 SOLVER:
-  batch_size : 64
+  epoch : 10
+  batch_size : 16
+
+#---------------------------------------------
+CALLBACK:
+  checkpoint:
+    save_name : 'model'
+    monitor : 'val_accuracy'
+    verbose : 1
+
+  plateau:
+    flag_run : False
