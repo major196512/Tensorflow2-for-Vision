@@ -17,7 +17,7 @@ def main():
     cfg = merge_yaml(cfg)
 
     train_data, test_data = load_data(cfg)
-    model = load_model(cfg)
+    model = load_model(cfg, pretrain=True)
     callbacks = Callback(cfg)
 
     #train the model for the first time
@@ -28,7 +28,8 @@ def main():
               validation_freq=1,
               shuffle=cfg['DATA']['shuffle']
               )
-    #model.evaluate_generator(test_data)
+    a = model.evaluate_generator(test_data)
+    print('Test Data Accuracy : %.2f' % a[1])
 
 if __name__ == '__main__':
     main()

@@ -23,4 +23,4 @@ CALLBACK:
     verbose : 1
 
   plateau:
-    flag_run : False
+    flag_run : True
